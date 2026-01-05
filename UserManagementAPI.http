@@ -1,0 +1,83 @@
+
+@baseUrl = http://localhost:5156/api/users
+
+### 1. GET all users (empty dataset scenario)
+GET {{baseUrl}}
+
+### 2. GET user by invalid ID (negative number)
+GET {{baseUrl}}/-1
+
+### 3. GET user by non-existent ID
+GET {{baseUrl}}/9999
+
+### 4. POST create user with missing fields (empty first name)
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Doe",
+  "email": "john.doe@techhive.com",
+  "department": "IT"
+}
+
+### 5. POST create user with invalid email
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "invalid-email",
+  "department": "IT"
+}
+
+### 6. POST create user with duplicate email
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@techhive.com",
+  "department": "HR"
+}
+
+### 7. PUT update user with invalid ID
+PUT {{baseUrl}}/-5
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "User",
+  "email": "updated.user@techhive.com",
+  "department": "Finance"
+}
+
+### 8. PUT update user with invalid email
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "User",
+  "email": "invalid-email",
+  "department": "Finance"
+}
+
+### 9. PUT update user with duplicate email
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "User",
+  "email": "john.doe@techhive.com",
+  "department": "Finance"
+}
+
+### 10. DELETE user with invalid ID
+DELETE {{baseUrl}}/-10
+
+### 11. DELETE user with non-existent ID
+DELETE {{baseUrl}}/9999

@@ -1,0 +1,44 @@
+
+@baseUrl = http://localhost:5156/api/users
+@validToken = my-secret-token
+@invalidToken = wrong-token
+
+### 1. Request without Authorization header (should return 401)
+GET {{baseUrl}}
+
+### 2. Request with invalid token (should return 401)
+GET {{baseUrl}}
+Authorization: Bearer {{invalidToken}}
+
+### 3. Request with valid token (should return 200 or actual data)
+GET {{baseUrl}}
+Authorization: Bearer {{validToken}}
+
+### 4. Trigger exception (simulate by sending invalid JSON to POST)
+POST {{baseUrl}}
+Authorization: Bearer {{validToken}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@techhive.com",
+  "department": "IT",
+  "extraField": "ThisWillCauseError"
+}
+
+### 5. POST with missing fields (should return 400 Bad Request)
+POST {{baseUrl}}
+Authorization: Bearer {{validToken}}
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Doe",
+  "email": "invalid-email",
+  "department": ""
+}
+
+### 6. DELETE with invalid ID (should return 400 or 404)
+DELETE {{baseUrl}}/-1
+Authorization: Bearer {{validToken}}
